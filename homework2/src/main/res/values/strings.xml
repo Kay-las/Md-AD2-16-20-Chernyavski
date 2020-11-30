@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Homework 2</string>
+    <string name="generate">сгенерировать</string>
+    <string name="calculation">Произвести расчет</string>
+</resources>
