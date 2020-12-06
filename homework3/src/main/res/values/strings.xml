@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">homework3</string>
+    <string name="attractions">attractions</string>
+    <string name="dining">dining</string>
+    <string name="education">education</string>
+    <string name="family">family</string>
+    <string name="health">health</string>
+    <string name="office">Office</string>
+    <string name="promotions">promotions</string>
+    <string name="radio">Radio</string>
+    <string name="recipes">Recipes</string>
+    <string name="sports">Sports</string>
+    <string name="todo">TODO</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="inventory">Inventory</string>
+    <string name="weight">Weight</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="remember">Remember</string>
+    <string name="just_sign_in">* Just sign in</string>
+    <string name="sing_in">Sing in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="android">Android</string>
+    <string name="username">Username</string>
+    <string name="address">Address</string>
+    <string name="direction">DIRECTION</string>
+    <string name="call">CALL</string>
+    <string name="save">SAVE</string>
+    <string name="website">WEBSITE</string>
+    <string name="_125">125</string>
+    <string name="post">Posts</string>
+    <string name="following">Following</string>
+    <string name="_22">22</string>
+    <string name="followers">Followers</string>
+    <string name="_20k">20k</string>
+    <string name="logo">logo</string>
+    <string name="certificated">Certificated</string>
+    <string name="photo">PHOTO</string>
+    <string name="layouts">Layouts</string>
+    <string name="views">Views</string>
+
+
+</resources>
