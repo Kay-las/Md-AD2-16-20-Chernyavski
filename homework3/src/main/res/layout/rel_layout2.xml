@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:background="@color/w"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/black">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="-4dp"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView"/>
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextTextPersonName2"
+        android:hint="@string/price">
+
+    </EditText>
+
+    <EditText
+        android:id="@id/editTextTextPersonName4"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/location"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentEnd="true"
+        android:drawableEnd="@drawable/ic_baseline_location_on_24"
+        android:layout_toEndOf="@id/editTextTextPersonName3"
+        android:layout_below="@id/editTextTextPersonName2">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextTextPersonName5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/editTextTextPersonName4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:hint="@string/description"/>
+
+    <EditText
+        android:id="@+id/editTextTextPersonName6"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextTextPersonName5"
+        android:hint="@string/inventory">
+
+    </EditText>
+
+    <EditText
+        android:id="@id/editTextTextPersonName7"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/weight"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/editTextTextPersonName5">
+
+    </EditText>
+
+
+
+</RelativeLayout>
