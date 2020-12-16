@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">homework4</string>
+    <string name="onoFF">ВЫКЛ/ВКЛ.</string>
+    <string name="on">ВКЛ.</string>
+    <string name="off">ВЫКЛ</string>
+</resources>
