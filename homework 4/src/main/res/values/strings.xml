@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">home4</string>
+    <string name="todo">TODO</string>
+    <string name="add_contact">Add contact</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="edit_contact">Edit_contact</string>
+    <string name="remove">Remove</string>
+
+</resources>
