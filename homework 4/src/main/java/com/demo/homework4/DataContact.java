@@ -2,36 +2,31 @@ package com.demo.homework4;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.UUID;
 
 public class DataContact implements Parcelable {
 
-    private int imageId;
-    private String name;
-    private String contact;
+    enum InfoType{Mail, Phone}
 
-    public DataContact(String name, String contact) {
-        this.name = name;
-        this.contact = contact;
-    }
-
-    public DataContact(int imageId, String name, String contact) {
-        this.imageId = imageId;
-        this.name = name;
-        this.contact = contact;
-    }
+   private String contactId;
+   private String name;
+   private String contact;
+   private InfoType infoType;
 
 
     protected DataContact(Parcel in) {
-        imageId = in.readInt();
+        contactId = in.readString();
         name = in.readString();
         contact = in.readString();
+        infoType =InfoType.valueOf(in.readString());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(imageId);
+        dest.writeString(contactId);
         dest.writeString(name);
         dest.writeString(contact);
+        dest.writeString(infoType.name());
     }
 
     @Override
@@ -51,8 +46,8 @@ public class DataContact implements Parcelable {
         }
     };
 
-    public int getImageId() {
-        return imageId;
+    public String getContactId() {
+        return contactId;
     }
 
     public String getName() {
@@ -63,15 +58,26 @@ public class DataContact implements Parcelable {
         return contact;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public InfoType getInfoType() {
+        return infoType;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+
     public void setContact(String contact) {
         this.contact = contact;
     }
+
+    public DataContact(String name, String contact, InfoType infoType) {
+        this.contactId = UUID.randomUUID().toString();
+        this.name = name;
+        this.contact = contact;
+        this.infoType = infoType;
+    }
 }
+
+
+

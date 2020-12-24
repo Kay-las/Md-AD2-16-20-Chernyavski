@@ -3,6 +3,7 @@ package com.demo.homework4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,10 +12,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE_EDIT = 1001;
+    public  int REQUEST_CODE_EDIT = 1001;
+    public  int REQUEST_CODE_ADD = 1002;
 
     private RecyclerView recyclerView;
-    public static final ArrayList<DataContact> dataContacts = new ArrayList<>();
+    public ArrayList<DataContact> dataContacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         recyclerView = findViewById(R.id.recyclerView);
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_phone_24, "Вяся Пупкин", "+3752545632"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_mail_24, "Елочка Гори", "fire2020"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_phone_24, "Снегурочка", "+3752545632"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_mail_24, "Дед Мороз", "liberty-26"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_phone_24, "Вяся Пупкин", "+3752545632"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_mail_24, "Елочка Гори", "fire2020"));
-        dataContacts.add(new DataContact(R.drawable.ic_baseline_contact_phone_24, "Снегурочка", "+3752545632"));
+
+        if(savedInstanceState!= null){
+            dataContacts = savedInstanceState.getParcelableArrayList("contacts");
+        }else{
+            dataContacts.add(new DataContact( "Год Быка", "358545656", DataContact.InfoType.Phone ));
+            dataContacts.add(new DataContact( "Год Крысы", "@mail", DataContact.InfoType.Mail ));
+        }
 
         ContactAdapter adapter = new ContactAdapter(dataContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -61,18 +63,30 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+        }else if(requestCode == REQUEST_CODE_ADD){
+            if(resultCode == RESULT_OK){
+                DataContact dataContact = data.getParcelableExtra("contact");
+
+                    dataContacts.add(dataContact);
+            }
+
         }
     }
 
     public void onClickAddContact(View view) {
         Intent intent = new Intent(MainActivity.this, AddActivity.class);
-        startActivity(intent);
-
+        startActivityForResult(intent,REQUEST_CODE_ADD);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         recyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("contacts",dataContacts);
     }
 }

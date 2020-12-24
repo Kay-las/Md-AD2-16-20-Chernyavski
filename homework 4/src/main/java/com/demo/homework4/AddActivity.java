@@ -1,5 +1,6 @@
 package com.demo.homework4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -37,14 +38,15 @@ public class AddActivity extends AppCompatActivity {
         String contact = communication.getText().toString();
         int radioButtonId = radioGroup.getCheckedRadioButtonId();
 
-        DataContact dataContact = new DataContact(name, contact);
-        if (radioButtonId == R.id.phoneNumber) {
-            dataContact.setImageId(R.drawable.ic_baseline_contact_phone_24);
-        } else {
-            dataContact.setImageId(R.drawable.ic_baseline_contact_mail_24);
+        DataContact dataContact = new DataContact(name, contact,radioButtonId == R.id.phoneNumber ? DataContact.InfoType.Phone : DataContact.InfoType.Mail );
 
-        }
-        MainActivity.dataContacts.add(dataContact);
+
+        Intent intent = new Intent();
+
+        intent.putExtra("contact",dataContact);
+
+        setResult(RESULT_OK,intent);
         finish();
+
     }
 }

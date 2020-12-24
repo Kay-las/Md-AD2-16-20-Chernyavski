@@ -36,6 +36,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.bind(dataContacts.get(position));
+
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return dataContacts != null ? dataContacts.size() : 0;
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+     class ContactViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView avatar;
         private TextView textName;
@@ -54,14 +55,23 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             avatar = itemView.findViewById(R.id.avatar);
             textName = itemView.findViewById(R.id.textName);
             editPhoneAddress = itemView.findViewById(R.id.editPhoneAddress);
-
         }
 
         void bind(DataContact dataContact) {
-            avatar.setImageResource(dataContact.getImageId());
+
             textName.setText(dataContact.getName());
             editPhoneAddress.setText(dataContact.getContact());
+            switch (dataContact.getInfoType()){
+                case Phone:
+                    avatar.setImageResource(R.drawable.ic_baseline_contact_phone_24);
+                    break;
+                case Mail:
+                    avatar.setImageResource(R.drawable.ic_baseline_contact_mail_24);
+                    break;
+            }
+
             itemView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
                     if(onContactClickListener != null){
