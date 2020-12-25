@@ -1,0 +1,4 @@
+com/demo/homework/MainActivity.java
+ com.demo.homework.MainActivity
+com/demo/homework/BuildConfig.java
+ com.demo.homework.BuildConfig
