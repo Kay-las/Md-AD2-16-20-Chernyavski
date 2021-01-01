@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name" translatable="false">My Application</string>
+    <string name="car_list">Список автомобилей</string>
+    <string name="add_work">Добавить работу</string>
+    <string name="description">Описание</string>
+    <string name="work_name">Наименование работы</string>
+    <string name="cost">Цена($)</string>
+    <string name="add_car">Добавить авто</string>
+    <string name="infoCar">Редактирование авто</string>
+    <string name="owner_name">Имя владельца</string>
+    <string name="model">Модель</string>
+    <string name="producer">Производитель</string>
+    <string name="pending">В ожидании</string>
+    <string name="in_progress">В работе</string>
+    <string name="completed">Завершено</string>
+</resources>
