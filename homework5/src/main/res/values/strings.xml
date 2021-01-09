@@ -13,4 +13,6 @@
     <string name="pending">В ожидании</string>
     <string name="in_progress">В работе</string>
     <string name="completed">Завершено</string>
+    <string name="number_car">Номер авто</string>
+    <string name="no_cars_added">Машины не добавлены</string>
 </resources>

@@ -13,4 +13,6 @@
     <string name="pending">Pending</string>
     <string name="in_progress">In progress</string>
     <string name="completed">Completed</string>
+    <string name="number_car">Plate number</string>
+    <string name="no_cars_added">No cars added</string>
 </resources>
