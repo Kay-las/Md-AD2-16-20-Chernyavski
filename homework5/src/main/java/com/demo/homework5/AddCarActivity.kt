@@ -41,8 +41,6 @@ class AddCarActivity : AppCompatActivity() {
 //                dao.insertCar(car)
                 val intent = Intent(this@AddCarActivity, MainActivity::class.java)
                 startActivity(intent)
-
-
             }
 
         }
