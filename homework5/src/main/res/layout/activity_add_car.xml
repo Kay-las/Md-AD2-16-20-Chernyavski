@@ -18,13 +18,13 @@
 
 
         <ImageButton
-            android:id="@+id/addCar"
+            android:id="@+id/back"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_arrow_back_24px" />
 
         <TextView
-            android:id="@+id/back"
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="38dp"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/save"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

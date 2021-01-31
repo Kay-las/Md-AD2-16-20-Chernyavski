@@ -10,41 +10,51 @@ import androidx.recyclerview.widget.RecyclerView
 import com.demo.homework5.Car
 import com.demo.homework5.R
 
-class WorkAdapter(listArray: ArrayList<Work>, context: Context) : RecyclerView.Adapter<WorkAdapter.ViewHolder>() {
+class WorkAdapter(private val workClickListener: WorkClickListener, listArray: ArrayList<Work>, context: Context) : RecyclerView.Adapter<WorkAdapter.ViewHolder>() {
 
     var listArrayWork = listArray
     var contextWork = context
 
+    interface WorkClickListener {
+        fun onWorkClick(position: Int)
+    }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    class ViewHolder(private val workClickListener: WorkClickListener, view: View) : RecyclerView.ViewHolder(view) {
         private val nameWork = view.findViewById<TextView>(R.id.nameWork)
         private val cost = view.findViewById<TextView>(R.id.cost)
-        private val progress = view.findViewById<ImageView>(R.id.progress)
-        private val data = view.findViewById<TextView>(R.id.data)
-
+        private val progressItem = view.findViewById<ImageView>(R.id.progressItem)
+//        private val data = view.findViewById<TextView>(R.id.data)
 
 
         fun bind(work: Work, position: Int, context: Context) {
             nameWork.text = work.nameWork
             cost.text = work.cost
-            progress.setImageResource(work.progress)
-            data.text = work.data
+//            data.text = work.data
+            when (work.progressItem) {
+                0 -> progressItem.setImageResource(R.drawable.ic_progress__2_)
+                1 -> progressItem.setImageResource(R.drawable.ic_progress)
+                2 -> progressItem.setImageResource(R.drawable.ic_progress__1_)
+            }
+            itemView.setOnClickListener {
+                workClickListener.onWorkClick(position)
+            }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(contextWork)
-        return ViewHolder(inflater.inflate(R.layout.item_work, parent, false))
+        return ViewHolder(workClickListener, inflater.inflate(R.layout.item_work, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val work = listArrayWork.get(position)
+        val work = listArrayWork[position]
         holder.bind(work, position, contextWork)
     }
 
     override fun getItemCount(): Int {
-       return listArrayWork.size
+        return listArrayWork.size
     }
 
 }

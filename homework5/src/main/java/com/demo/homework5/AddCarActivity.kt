@@ -12,7 +12,8 @@ class AddCarActivity : AppCompatActivity() {
     private lateinit var producer: TextInputLayout
     private lateinit var model: TextInputLayout
     private lateinit var number: TextInputLayout
-    private lateinit var addCar: AppCompatImageButton
+    private lateinit var back: AppCompatImageButton
+    private lateinit var save: AppCompatImageButton
     private lateinit var dataBaseCar: DataBaseCar
 
 
@@ -28,7 +29,11 @@ class AddCarActivity : AppCompatActivity() {
         producer = findViewById(R.id.producer)
         model = findViewById(R.id.model)
         number = findViewById(R.id.number)
-        addCar = findViewById<AppCompatImageButton>(R.id.addCar).apply {
+        back = findViewById<AppCompatImageButton>(R.id.back).apply {
+            setOnClickListener {
+                finish()
+        }  }
+        save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
                 val dao = DataBaseCar.init(this@AddCarActivity).getCarDao()
                 val car = Car(

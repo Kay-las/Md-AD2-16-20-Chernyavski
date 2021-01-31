@@ -2,7 +2,6 @@ package com.demo.homework5
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,18 +47,23 @@ class MainActivity : AppCompatActivity() {
 
 
                 val intent = Intent(this@MainActivity, AutoRepairActivity::class.java)
+                intent.putExtra("carId", list[position].id)
+                val car = list[position]
+                intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
             }
 
             override fun onCarEditClick(position: Int) {
                 val intent = Intent(this@MainActivity, CarInfoActivity::class.java)
+                val car = list[position]
+                intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
             }
 
         }, list, this)
-        recyclerView.adapter
+//        recyclerView.adapter
 
     }
 

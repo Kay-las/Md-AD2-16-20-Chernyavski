@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Homework1">
-        <activity android:name=".AddWorkActivity"></activity>
+        <activity android:name=".work.EditDeleteWork"></activity>
+        <activity android:name=".AddWorkActivity" />
         <activity android:name=".CarInfoActivity" />
         <activity android:name=".AutoRepairActivity" />
         <activity android:name=".AddCarActivity" />

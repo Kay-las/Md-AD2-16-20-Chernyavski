@@ -18,7 +18,7 @@
         tools:targetApi="lollipop">
 
         <ImageButton
-            android:id="@+id/add"
+            android:id="@+id/back"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_arrow_back_24px" />
@@ -46,7 +46,8 @@
                 <TextView
                     android:id="@+id/producerCar"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <TextView

@@ -1,58 +1,100 @@
 package com.demo.homework5
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.ViewGroup
-import android.view.ViewManager
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.demo.homework5.work.EditDeleteWork
 import com.demo.homework5.work.Work
+import com.demo.homework5.work.WorkAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.util.ArrayList
+import java.util.*
 
 class AutoRepairActivity : AppCompatActivity() {
 
     private lateinit var addWork: FloatingActionButton
-    private lateinit var add: AppCompatImageButton
+    private lateinit var back: AppCompatImageButton
     private lateinit var recyclerViewWork: RecyclerView
     private lateinit var toolbar: Toolbar
-
+    private lateinit var modelCar: TextView
+    private lateinit var producerCar: TextView
+    private lateinit var numberCar: TextView
+    private lateinit var dataBaseCar: DataBaseCar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auto_repair)
 
+        modelCar = findViewById(R.id.modelCar)
+        producerCar = findViewById(R.id.producerCar)
+        numberCar = findViewById(R.id.numberCar)
+
         recyclerViewWork = findViewById(R.id.recyclerViewWork)
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        val carId = intent.getIntExtra("carId", 0)
+
+        dataBaseCar = DataBaseCar.init(this)
+        getData()
+
         val list = ArrayList<Work>()
-        list.add(Work(R.drawable.ic_progress, "engine", "21.02.2020", "1200"))
 
-        addWork = findViewById<FloatingActionButton>(R.id.addWork).apply { setOnClickListener {
+        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+        list.addAll(workFromDB)
 
-            val intent = Intent(this@AutoRepairActivity, AddWorkActivity::class.java)
-            startActivity(intent)
-        } }
 
-        add = findViewById<AppCompatImageButton>(R.id.add).apply {
+        addWork = findViewById<FloatingActionButton>(R.id.addWork).apply {
             setOnClickListener {
 
+                val intent = Intent(this@AutoRepairActivity, AddWorkActivity::class.java)
+                intent.putExtra("carId", carId)
+                startActivity(intent)
+            }
+        }
+
+        back = findViewById<AppCompatImageButton>(R.id.back).apply {
+            setOnClickListener {
+                finish()
             }
         }
         recyclerViewWork.layoutManager = LinearLayoutManager(this)
-        recyclerViewWork.adapter
+        recyclerViewWork.adapter = WorkAdapter(object : WorkAdapter.WorkClickListener {
+            override fun onWorkClick(position: Int) {
+                val intent = Intent(this@AutoRepairActivity, EditDeleteWork::class.java)
+                startActivity(intent)
+            }
 
+        }, list, this)
+
+
+        infoCar()
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
+    private fun getData() {
+
+        val dao = dataBaseCar.getWorkDao()
+
+    }
+
+    private fun infoCar() {
+        val intent = intent
+        val car = intent.getParcelableExtra<Car>(Constants.CAR_KEY)
+        producerCar.text = car?.producerCar
+        modelCar.text = car?.modelCar
+        numberCar.text = car?.numberCar
+
+    }
 
 }

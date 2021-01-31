@@ -9,9 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#4F4F4F</color>
     <color name="accent">#3949AB</color>
+
     <color name="pending">#DC4242</color>
     <color name="in_progress">#E6A72D</color>
     <color name="completed">#0D864C</color>
+
     <color name="gray"> #C4C4C4</color>
 
 
