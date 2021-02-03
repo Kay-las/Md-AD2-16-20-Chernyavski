@@ -77,7 +77,6 @@ class AutoRepairActivity : AppCompatActivity() {
         }, list, this)
         recyclerViewWork.adapter = workAdapter
 
-
         infoCar()
     }
 

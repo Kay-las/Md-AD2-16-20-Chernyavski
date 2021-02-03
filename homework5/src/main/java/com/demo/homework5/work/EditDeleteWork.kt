@@ -1,13 +1,11 @@
 package com.demo.homework5.work
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
-import com.demo.homework5.Car
 import com.demo.homework5.Constants
 import com.demo.homework5.DataBaseCar
 import com.demo.homework5.R

@@ -59,13 +59,13 @@ class CarAdapter(private val carClickListener: CarClickListener, listArray: Arra
         return listArrayRec.size
     }
 
-   fun setListCars(cars: ArrayList<Car>){
-       this.listArrayRec = cars
-       notifyDataSetChanged()
-   }
+    fun setListCars(cars: ArrayList<Car>) {
+        this.listArrayRec = cars
+        notifyDataSetChanged()
+    }
 
-    fun getItem(position:Int):Car{
-       return this.listArrayRec.get(position)
+    fun getItem(position: Int): Car {
+        return this.listArrayRec[position]
     }
 
 }

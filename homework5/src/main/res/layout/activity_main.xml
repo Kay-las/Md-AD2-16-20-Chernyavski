@@ -28,19 +28,6 @@
             android:textSize="20sp"
             android:textStyle="normal" />
 
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/search"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_gravity="end|center"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_search" />
-        </FrameLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -56,19 +43,6 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
-
-    <TextView
-        android:id="@+id/noCarAdded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_cars_added"
-        android:textColor="@color/gray"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonAdd"
