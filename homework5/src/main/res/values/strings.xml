@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name" translatable="false">My Application</string>
+    <string name="car_list">Список автомобилей</string>
+    <string name="add_work">Добавить работу</string>
+    <string name="description">Описание</string>
+    <string name="work_name">Наименование работы</string>
+    <string name="cost">Цена($)</string>
+    <string name="add_car">Добавить авто</string>
+    <string name="infoCar">Редактирование авто</string>
+    <string name="owner_name">Имя владельца</string>
+    <string name="model">Модель</string>
+    <string name="producer">Производитель</string>
+    <string name="pending">В ожидании</string>
+    <string name="in_progress">В работе</string>
+    <string name="completed">Завершено</string>
+    <string name="number_car">Номер авто</string>
+    <string name="no_cars_added">Машины не добавлены</string>
+    <string name="search_work">Поиск</string>
+
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
+    <string name="delete">Удалить?</string>
+    <string name="question">Вы точно хотите удалить?</string>
+    <string name="note">Все поля должны быть заполнены</string>
+</resources>

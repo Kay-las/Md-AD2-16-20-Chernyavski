@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="car_list">Car list</string>
+    <string name="add_work">Add work</string>
+    <string name="description">Description</string>
+    <string name="work_name">Work name</string>
+    <string name="cost">Cost ($)</string>
+    <string name="add_car">Add car</string>
+    <string name="infoCar">Car info</string>
+    <string name="owner_name">Owner name</string>
+    <string name="model">Model</string>
+    <string name="producer">Producer</string>
+    <string name="pending">Pending</string>
+    <string name="in_progress">In progress</string>
+    <string name="completed">Completed</string>
+    <string name="number_car">Plate number</string>
+    <string name="no_cars_added">No cars added</string>
+    <string name="search_work">Search</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete">Delete?</string>
+    <string name="question">Are you sure you want to delete?</string>
+    <string name="note">All fields must be filled</string>
+</resources>
