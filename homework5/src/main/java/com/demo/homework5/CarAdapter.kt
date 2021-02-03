@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CarAdapter(private val carClickListener: CarClickListener, listArray: ArrayList<Car>, context: Context) : RecyclerView.Adapter<CarAdapter.ViewHolder>() {
 
-    var listArrayRec = listArray
+    private var listArrayRec = listArray
     var contextRec = context
 
     interface CarClickListener {
@@ -57,6 +57,15 @@ class CarAdapter(private val carClickListener: CarClickListener, listArray: Arra
 
     override fun getItemCount(): Int {
         return listArrayRec.size
+    }
+
+   fun setListCars(cars: ArrayList<Car>){
+       this.listArrayRec = cars
+       notifyDataSetChanged()
+   }
+
+    fun getItem(position:Int):Car{
+       return this.listArrayRec.get(position)
     }
 
 }

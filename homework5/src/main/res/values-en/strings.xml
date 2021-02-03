@@ -15,4 +15,11 @@
     <string name="completed">Completed</string>
     <string name="number_car">Plate number</string>
     <string name="no_cars_added">No cars added</string>
+    <string name="search_work">Search</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete">Delete?</string>
+    <string name="question">Are you sure you want to delete?</string>
+    <string name="note">All fields must be filled</string>
 </resources>

@@ -56,18 +56,19 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <TextView
         android:id="@+id/noCarAdded"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/no_cars_added"
-        android:textSize="16sp"
         android:textColor="@color/gray"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonAdd"

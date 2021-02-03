@@ -12,7 +12,7 @@ import com.demo.homework5.R
 
 class WorkAdapter(private val workClickListener: WorkClickListener, listArray: ArrayList<Work>, context: Context) : RecyclerView.Adapter<WorkAdapter.ViewHolder>() {
 
-    var listArrayWork = listArray
+    private var listArrayWork = listArray
     var contextWork = context
 
     interface WorkClickListener {
@@ -24,17 +24,16 @@ class WorkAdapter(private val workClickListener: WorkClickListener, listArray: A
         private val nameWork = view.findViewById<TextView>(R.id.nameWork)
         private val cost = view.findViewById<TextView>(R.id.cost)
         private val progressItem = view.findViewById<ImageView>(R.id.progressItem)
-//        private val data = view.findViewById<TextView>(R.id.data)
+
 
 
         fun bind(work: Work, position: Int, context: Context) {
             nameWork.text = work.nameWork
             cost.text = work.cost
-//            data.text = work.data
             when (work.progressItem) {
-                0 -> progressItem.setImageResource(R.drawable.ic_progress__2_)
-                1 -> progressItem.setImageResource(R.drawable.ic_progress)
-                2 -> progressItem.setImageResource(R.drawable.ic_progress__1_)
+                0 -> progressItem.setImageResource(R.drawable.ic_pending)
+                1 -> progressItem.setImageResource(R.drawable.ic_in_progress)
+                2 -> progressItem.setImageResource(R.drawable.ic_completed)
             }
             itemView.setOnClickListener {
                 workClickListener.onWorkClick(position)
@@ -57,4 +56,12 @@ class WorkAdapter(private val workClickListener: WorkClickListener, listArray: A
         return listArrayWork.size
     }
 
+    fun setListWorks(works: ArrayList<Work>){
+        this.listArrayWork = works
+        notifyDataSetChanged()
+    }
+
+    fun getItem(position:Int):Work{
+        return this.listArrayWork[position]
+    }
 }

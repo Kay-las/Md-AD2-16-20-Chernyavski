@@ -17,6 +17,7 @@ import java.util.*
 
 class AutoRepairActivity : AppCompatActivity() {
 
+    private lateinit var workAdapter: WorkAdapter
     private lateinit var addWork: FloatingActionButton
     private lateinit var back: AppCompatImageButton
     private lateinit var recyclerViewWork: RecyclerView
@@ -65,13 +66,16 @@ class AutoRepairActivity : AppCompatActivity() {
             }
         }
         recyclerViewWork.layoutManager = LinearLayoutManager(this)
-        recyclerViewWork.adapter = WorkAdapter(object : WorkAdapter.WorkClickListener {
+        workAdapter = WorkAdapter(object : WorkAdapter.WorkClickListener {
             override fun onWorkClick(position: Int) {
                 val intent = Intent(this@AutoRepairActivity, EditDeleteWork::class.java)
+                val car = workAdapter.getItem(position)
+                intent.putExtra(Constants.WORK_KEY, car)
                 startActivity(intent)
             }
 
         }, list, this)
+        recyclerViewWork.adapter = workAdapter
 
 
         infoCar()
@@ -79,7 +83,17 @@ class AutoRepairActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.search, menu)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val list = ArrayList<Work>()
+        val carId = intent.getIntExtra("carId", 0)
+        val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+        list.addAll(carFromDB)
+        workAdapter.setListWorks(list)
     }
 
     private fun getData() {

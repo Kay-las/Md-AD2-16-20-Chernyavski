@@ -1,21 +1,18 @@
 package com.demo.homework5
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.demo.homework5.work.Work
 import com.google.android.material.textfield.TextInputLayout
-import java.util.ArrayList
+import java.util.*
 
 class AddWorkActivity : AppCompatActivity() {
 
     private lateinit var nameWork: TextInputLayout
     private lateinit var cost: TextInputLayout
-
-    //    private lateinit var data: TextInputLayout
-//    private lateinit var progressItem: ImageView
+    private lateinit var description: TextInputLayout
 
     private lateinit var save: AppCompatImageButton
     private lateinit var back: AppCompatImageButton
@@ -32,6 +29,7 @@ class AddWorkActivity : AppCompatActivity() {
 
         nameWork = findViewById(R.id.nameWork)
         cost = findViewById(R.id.cost)
+        description = findViewById(R.id.description)
         pending = findViewById<AppCompatImageButton>(R.id.pending).apply {
             setOnClickListener { onStateClicked(0) }
         }
@@ -43,11 +41,10 @@ class AddWorkActivity : AppCompatActivity() {
         }
 
         dataBaseCar = DataBaseCar.init(this)
-//        getData()
 
         val carId = intent.getIntExtra("carId", 0)
 
-//        pending.isSelected = true
+        pending.isSelected = true
 
         val list = ArrayList<Work>()
 
@@ -56,16 +53,20 @@ class AddWorkActivity : AppCompatActivity() {
 
         save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
-//                val dao = DataBaseCar.init(this@AddWorkActivity).getWorkDao()
+
+                if(nameWork.editText?.text.toString().isNotEmpty() && cost.editText?.text.toString().isNotEmpty() &&
+                        description.editText?.text.toString().isNotEmpty()){
                 val work = Work(
                         nameWork = nameWork.editText?.text.toString(),
                         cost = cost.editText?.text.toString(),
+                        description = description.editText?.text.toString(),
                         carId = carId,
-//                        data = data.editText?.text.toString(),
                         progressItem = state)
-
                 dataBaseCar.getWorkDao().insertWork(work)
                 finish()
+                }else {
+                    Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -77,7 +78,6 @@ class AddWorkActivity : AppCompatActivity() {
         refreshState()
     }
 
-
     private fun onStateClicked(newState: Int) {
         state = newState
         refreshState()
@@ -88,12 +88,4 @@ class AddWorkActivity : AppCompatActivity() {
         progress.isSelected = state == 1
         completed.isSelected = state == 2
     }
-
-//    private fun getData() {
-//
-//        val dao = dataBaseCar.getWorkDao()
-//
-//    }
-
-
 }

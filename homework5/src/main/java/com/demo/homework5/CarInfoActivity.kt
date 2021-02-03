@@ -1,13 +1,9 @@
 package com.demo.homework5
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.util.ArrayList
 
 class CarInfoActivity : AppCompatActivity() {
 
@@ -23,8 +19,6 @@ class CarInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_car_info)
 
-
-
         ownerName = findViewById(R.id.ownerName)
         producer = findViewById(R.id.producer)
         model = findViewById(R.id.model)
@@ -32,47 +26,39 @@ class CarInfoActivity : AppCompatActivity() {
 
         dataBaseCar = DataBaseCar.init(this)
 
-
         back = findViewById<AppCompatImageButton>(R.id.back).apply {
             setOnClickListener {
                 finish()
-            }  }
+            }
+        }
 
         save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
 
+                val car = intent.getParcelableExtra<Car>(Constants.CAR_KEY) as Car
 
-                val car = Car(
-                        ownerNameCar = ownerName.editText?.text.toString(),
-                        producerCar = producer.editText?.text.toString(),
-                        modelCar = model.editText?.text.toString(),
-                        numberCar = numberCar.editText?.text.toString())
+                car.ownerNameCar = ownerName.editText?.text.toString()
+                car.producerCar = producer.editText?.text.toString()
+                car.modelCar = model.editText?.text.toString()
+                car.numberCar = numberCar.editText?.text.toString()
 
-                val  intent = intent
+                val intent = intent
                 intent.putExtra(Constants.CAR_KEY, car)
-                
-                 dataBaseCar.getCarDao().updateCar(car)
+                dataBaseCar.getCarDao().updateCar(car)
 
-
-
-
-//                val intent = Intent(this@CarInfoActivity, MainActivity::class.java)
-//                startActivity(intent)
                 finish()
-
             }
         }
 
         editing()
-
     }
-    private fun editing(){
-        val  intent = intent
+
+    private fun editing() {
+        val intent = intent
         val car = intent.getParcelableExtra<Car>(Constants.CAR_KEY)
         ownerName.editText?.setText(car?.ownerNameCar)
         producer.editText?.setText(car?.producerCar)
         model.editText?.setText(car?.modelCar)
         numberCar.editText?.setText(car?.numberCar)
-
     }
 }

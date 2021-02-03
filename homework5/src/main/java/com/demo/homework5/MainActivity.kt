@@ -12,6 +12,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
 
+    private lateinit var carAdapter: CarAdapter
     private lateinit var buttonAdd: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        
 
         dataBaseCar = DataBaseCar.init(this)
         getData()
@@ -42,9 +45,8 @@ class MainActivity : AppCompatActivity() {
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CarAdapter(object : CarAdapter.CarClickListener {
+         carAdapter = CarAdapter(object : CarAdapter.CarClickListener {
             override fun onCarClick(position: Int) {
-
 
                 val intent = Intent(this@MainActivity, AutoRepairActivity::class.java)
                 intent.putExtra("carId", list[position].id)
@@ -56,15 +58,25 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCarEditClick(position: Int) {
                 val intent = Intent(this@MainActivity, CarInfoActivity::class.java)
-                val car = list[position]
+                val car = carAdapter.getItem(position)
                 intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
             }
 
         }, list, this)
-//        recyclerView.adapter
+        recyclerView.adapter = carAdapter
 
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        val list = ArrayList<Car>()
+        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
+        list.addAll(carFromDB)
+        carAdapter.setListCars(list)
     }
 
     private fun getData() {
