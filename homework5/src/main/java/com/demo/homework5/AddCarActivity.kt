@@ -1,6 +1,5 @@
 package com.demo.homework5
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -45,16 +44,12 @@ class AddCarActivity : AppCompatActivity() {
                             numberCar = number.editText?.text.toString())
 
                     dataBaseCar.getCarDao().insertCar(car)
-                    val intent = Intent(this@AddCarActivity, MainActivity::class.java)
-                    startActivity(intent)
+                    finish()
+
                 } else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
                 }
-
             }
-
-
         }
-
     }
 }

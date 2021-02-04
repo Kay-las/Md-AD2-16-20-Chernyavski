@@ -43,7 +43,6 @@ class AutoRepairActivity : AppCompatActivity() {
         val carId = intent.getIntExtra("carId", 0)
 
         dataBaseCar = DataBaseCar.init(this)
-        getData()
 
         val list = ArrayList<Work>()
 
@@ -93,12 +92,6 @@ class AutoRepairActivity : AppCompatActivity() {
         val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
         list.addAll(carFromDB)
         workAdapter.setListWorks(list)
-    }
-
-    private fun getData() {
-
-        val dao = dataBaseCar.getWorkDao()
-
     }
 
     private fun infoCar() {

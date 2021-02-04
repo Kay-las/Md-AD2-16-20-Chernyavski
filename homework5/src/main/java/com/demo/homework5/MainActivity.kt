@@ -12,7 +12,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-//    С сохранением даты и времени, меня чего то переклинило- не сделал. ^_^
+
 
     private lateinit var carAdapter: CarAdapter
     private lateinit var buttonAdd: FloatingActionButton
@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         dataBaseCar = DataBaseCar.init(this)
-        getData()
 
         val list = ArrayList<Car>()
 
@@ -81,11 +80,6 @@ class MainActivity : AppCompatActivity() {
         val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
         list.addAll(carFromDB)
         carAdapter.setListCars(list)
-    }
-
-    private fun getData() {
-        val dao = dataBaseCar.getCarDao()
-
     }
 
 }
