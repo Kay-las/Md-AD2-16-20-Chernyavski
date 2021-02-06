@@ -50,7 +50,7 @@ class CarAdapter(private val carClickListener: CarClickListener, listArray: Arra
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val car = listArrayRec.get(position)
+        val car = listArrayRec[position]
         holder.bind(car, position, contextRec)
 
     }

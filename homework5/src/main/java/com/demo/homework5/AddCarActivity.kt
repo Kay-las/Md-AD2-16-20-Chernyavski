@@ -5,6 +5,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.ArrayList
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class AddCarActivity : AppCompatActivity() {
 
@@ -42,9 +46,9 @@ class AddCarActivity : AppCompatActivity() {
                             producerCar = producer.editText?.text.toString(),
                             modelCar = model.editText?.text.toString(),
                             numberCar = number.editText?.text.toString())
+                    addCar(car)
+//                    dataBaseCar.getCarDao().insertCar(car)
 
-                    dataBaseCar.getCarDao().insertCar(car)
-                    finish()
 
                 } else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
@@ -52,4 +56,17 @@ class AddCarActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun addCar(car: Car) {
+        dataBaseCar = DataBaseCar.init(this)
+        Single.create<Car> {
+            dataBaseCar.getCarDao().insertCar(car)
+            it.onSuccess(car)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe { _ ->
+                    finish()
+                }
+
+    }
 }
+
