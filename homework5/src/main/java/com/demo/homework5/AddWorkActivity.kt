@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.demo.homework5.work.Work
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
 class AddWorkActivity : AppCompatActivity() {
@@ -40,7 +43,7 @@ class AddWorkActivity : AppCompatActivity() {
             setOnClickListener { onStateClicked(2) }
         }
 
-        dataBaseCar = DataBaseCar.init(this)
+//        dataBaseCar = DataBaseCar.init(this)
 
         val carId = intent.getIntExtra("carId", 0)
 
@@ -48,8 +51,8 @@ class AddWorkActivity : AppCompatActivity() {
 
         val list = ArrayList<Work>()
 
-        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(workFromDB)
+//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+//        list.addAll(workFromDB)
 
         save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
@@ -62,8 +65,9 @@ class AddWorkActivity : AppCompatActivity() {
                         description = description.editText?.text.toString(),
                         carId = carId,
                         progressItem = state)
-                dataBaseCar.getWorkDao().insertWork(work)
-                finish()
+                    addWork(work)
+//                dataBaseCar.getWorkDao().insertWork(work)
+//                finish()
                 }else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
                 }
@@ -87,5 +91,17 @@ class AddWorkActivity : AppCompatActivity() {
         pending.isSelected = state == 0
         progress.isSelected = state == 1
         completed.isSelected = state == 2
+    }
+
+    private fun addWork(work: Work) {
+        dataBaseCar = DataBaseCar.init(this)
+        Single.create<Work> {
+            dataBaseCar.getWorkDao().insertWork(work)
+            it.onSuccess(work)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe { _ ->
+                    finish()
+                }
+
     }
 }

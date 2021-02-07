@@ -13,6 +13,9 @@ interface WorkDao {
     @Query("SELECT * FROM Work where carId = :carId ORDER BY cost")
     fun getAllWork(carId:Int): List<Work>
 
+    @Query("SELECT * FROM Work where carId = :carId ORDER BY cost")
+    fun getAllWorkRX(carId:Int): List<Work>
+
 //    @Query("SELECT * FROM Work where carId = :carId ORDER BY progressItem")
 //    fun getAllWorkPending(carId:Int): List<Work>
 

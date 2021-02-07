@@ -13,6 +13,8 @@ import com.demo.homework5.work.EditDeleteWork
 import com.demo.homework5.work.Work
 import com.demo.homework5.work.WorkAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 
 class AutoRepairActivity : AppCompatActivity() {
@@ -46,8 +48,8 @@ class AutoRepairActivity : AppCompatActivity() {
 
         val list = ArrayList<Work>()
 
-        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(workFromDB)
+//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+//        list.addAll(workFromDB)
 
 
         addWork = findViewById<FloatingActionButton>(R.id.addWork).apply {
@@ -77,6 +79,7 @@ class AutoRepairActivity : AppCompatActivity() {
         recyclerViewWork.adapter = workAdapter
 
         infoCar()
+        addAllWork()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -102,5 +105,16 @@ class AutoRepairActivity : AppCompatActivity() {
         numberCar.text = car?.numberCar
 
     }
+
+    private fun addAllWork() {
+        val carId = intent.getIntExtra("carId", 0)
+        dataBaseCar = DataBaseCar.init(this)
+        dataBaseCar.getWorkDao().getAllWorkRX(carId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{workFromDB-> workAdapter }
+
+    }
+
 
 }

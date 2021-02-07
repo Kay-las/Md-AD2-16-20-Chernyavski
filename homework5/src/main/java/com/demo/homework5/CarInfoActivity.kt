@@ -61,4 +61,6 @@ class CarInfoActivity : AppCompatActivity() {
         model.editText?.setText(car?.modelCar)
         numberCar.editText?.setText(car?.numberCar)
     }
+
+
 }
