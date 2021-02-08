@@ -14,8 +14,15 @@ import com.demo.homework5.work.Work
 import com.demo.homework5.work.WorkAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AutoRepairActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var workAdapter: WorkAdapter
     private lateinit var addWork: FloatingActionButton
@@ -46,8 +53,8 @@ class AutoRepairActivity : AppCompatActivity() {
 
         val list = ArrayList<Work>()
 
-        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(workFromDB)
+//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+//        list.addAll(workFromDB)
 
 
         addWork = findViewById<FloatingActionButton>(R.id.addWork).apply {
@@ -76,6 +83,7 @@ class AutoRepairActivity : AppCompatActivity() {
         }, list, this)
         recyclerViewWork.adapter = workAdapter
 
+        getAllWork()
         infoCar()
     }
 
@@ -87,11 +95,12 @@ class AutoRepairActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val list = ArrayList<Work>()
-        val carId = intent.getIntExtra("carId", 0)
-        val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(carFromDB)
-        workAdapter.setListWorks(list)
+        getAllWork()
+//        val list = ArrayList<Work>()
+//        val carId = intent.getIntExtra("carId", 0)
+//        val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+//        list.addAll(carFromDB)
+//        workAdapter.setListWorks(list)
     }
 
     private fun infoCar() {
@@ -101,6 +110,19 @@ class AutoRepairActivity : AppCompatActivity() {
         modelCar.text = car?.modelCar
         numberCar.text = car?.numberCar
 
+    }
+
+    private fun getAllWork(){
+        dataBaseCar = DataBaseCar.init(this)
+        val list = ArrayList<Work>()
+        val carId = intent.getIntExtra("carId", 0)
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().getAllWork(carId) }
+            val workFromDB =  deferrend.await()
+            workAdapter.setListWorks(list)
+            list.addAll(workFromDB)
+            workAdapter.setListWorks(list)
+        }
     }
 
 }

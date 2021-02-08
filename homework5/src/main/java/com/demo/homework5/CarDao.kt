@@ -10,13 +10,13 @@ import androidx.room.Update
 interface CarDao {
 
     @Query("SELECT * FROM Car ORDER BY modelCar")
-    fun getAllCar(): List<Car>
+   suspend fun getAllCar(): List<Car>
 
     @Insert
-    fun insertCar(car: Car)
+   suspend fun insertCar(car: Car)
 
     @Update
-    fun updateCar(car: Car)
+   suspend fun updateCar(car: Car)
 
     @Delete
     fun deleteCar(car: Car)

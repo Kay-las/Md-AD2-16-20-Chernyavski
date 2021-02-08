@@ -16,7 +16,7 @@ abstract class DataBaseCar : RoomDatabase() {
     companion object {
         fun init (context: Context) =
                 Room.databaseBuilder(context, DataBaseCar::class.java, "database")
-                        .allowMainThreadQueries()
+//                        .allowMainThreadQueries()
                         .build()
 
     }

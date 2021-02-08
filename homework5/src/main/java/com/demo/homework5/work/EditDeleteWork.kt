@@ -10,8 +10,15 @@ import com.demo.homework5.Constants
 import com.demo.homework5.DataBaseCar
 import com.demo.homework5.R
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class EditDeleteWork : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var nameWork: TextInputLayout
     private lateinit var cost: TextInputLayout
@@ -69,7 +76,8 @@ class EditDeleteWork : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.WORK_KEY, work)
-                dataBaseCar.getWorkDao().updateWork(work)
+                editingWork(work)
+//                dataBaseCar.getWorkDao().updateWork(work)
                 finish()
             }  }
         delete = findViewById<AppCompatImageButton>(R.id.delete).apply {
@@ -86,7 +94,8 @@ class EditDeleteWork : AppCompatActivity() {
         alertDialogBuilder.setNegativeButton(R.string.no, null)
                 alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface, i ->
                     val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY) as Work
-                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
+//                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
+                    deleteWork(work)
                     finish()
                 }
                         .show()
@@ -120,6 +129,28 @@ class EditDeleteWork : AppCompatActivity() {
        workInfo.text = work?.nameWork
 
 
+    }
+
+    private fun editingWork(work: Work){
+        dataBaseCar = DataBaseCar.init(this)
+//        val list = ArrayList<Work>()
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().updateWork(work) }
+            val carFromDB =  deferrend.await()
+//            workAdapter.setListWorks(list)
+//            list.addAll(carFromDB)
+        }
+    }
+
+    private fun deleteWork(work: Work){
+        dataBaseCar = DataBaseCar.init(this)
+//        val list = ArrayList<Work>()
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().deleteWork(work) }
+            val carFromDB =  deferrend.await()
+//            workAdapter.setListWorks(list)
+//            list.addAll(carFromDB)
+        }
     }
 
 }

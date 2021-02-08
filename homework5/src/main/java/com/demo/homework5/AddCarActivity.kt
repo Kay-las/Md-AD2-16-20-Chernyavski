@@ -5,8 +5,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AddCarActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var ownerName: TextInputLayout
     private lateinit var producer: TextInputLayout
@@ -21,7 +29,8 @@ class AddCarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_car)
 
-        dataBaseCar = DataBaseCar.init(this)
+//        dataBaseCar = DataBaseCar.init(this)
+
 
 
         ownerName = findViewById(R.id.ownerName)
@@ -43,7 +52,8 @@ class AddCarActivity : AppCompatActivity() {
                             modelCar = model.editText?.text.toString(),
                             numberCar = number.editText?.text.toString())
 
-                    dataBaseCar.getCarDao().insertCar(car)
+                    addCar(car)
+//                    dataBaseCar.getCarDao().insertCar(car)
                     finish()
 
                 } else {
@@ -52,4 +62,16 @@ class AddCarActivity : AppCompatActivity() {
             }
         }
     }
+
+        private fun addCar(car: Car){
+            dataBaseCar = DataBaseCar.init(this)
+            val list = ArrayList<Car>()
+            activityScope.launch {
+                val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().insertCar(car) }
+                val carFromDB =  deferrend.await()
+//                carAdapter.setListCars(list)
+//                list.addAll(carFromDB)
+            }
+        }
+
 }

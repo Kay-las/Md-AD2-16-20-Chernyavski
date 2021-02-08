@@ -9,10 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
 
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var carAdapter: CarAdapter
     private lateinit var buttonAdd: FloatingActionButton
@@ -25,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dataBaseCar = DataBaseCar.init(this)
+//        dataBaseCar = DataBaseCar.init(this)
 
         val list = ArrayList<Car>()
 
-        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-        list.addAll(carFromDB)
+//        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
+//        list.addAll(carFromDB)
 
         recyclerView = findViewById(R.id.recyclerView)
         toolbar = findViewById(R.id.toolbar)
@@ -66,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         }, list, this)
         recyclerView.adapter = carAdapter
+        getAllCar()
 
     }
 
@@ -76,10 +83,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        getAllCar()
+//        val list = ArrayList<Car>()
+//        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
+//        list.addAll(carFromDB)
+//        carAdapter.setListCars(list)
+    }
+
+    private fun getAllCar(){
+        dataBaseCar = DataBaseCar.init(this)
         val list = ArrayList<Car>()
-        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-        list.addAll(carFromDB)
-        carAdapter.setListCars(list)
+        activityScope.launch {
+           val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().getAllCar() }
+            val carFromDB =  deferrend.await()
+            carAdapter.setListCars(list)
+            list.addAll(carFromDB)
+        }
     }
 
 }

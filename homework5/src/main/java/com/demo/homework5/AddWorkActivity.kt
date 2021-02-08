@@ -7,8 +7,15 @@ import androidx.appcompat.widget.AppCompatImageButton
 import com.demo.homework5.work.Work
 import com.google.android.material.textfield.TextInputLayout
 import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AddWorkActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var nameWork: TextInputLayout
     private lateinit var cost: TextInputLayout
@@ -40,16 +47,16 @@ class AddWorkActivity : AppCompatActivity() {
             setOnClickListener { onStateClicked(2) }
         }
 
-        dataBaseCar = DataBaseCar.init(this)
+//        dataBaseCar = DataBaseCar.init(this)
 
         val carId = intent.getIntExtra("carId", 0)
 
         pending.isSelected = true
 
-        val list = ArrayList<Work>()
+//        val list = ArrayList<Work>()
 
-        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(workFromDB)
+//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
+//        list.addAll(workFromDB)
 
         save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
@@ -62,7 +69,9 @@ class AddWorkActivity : AppCompatActivity() {
                         description = description.editText?.text.toString(),
                         carId = carId,
                         progressItem = state)
-                dataBaseCar.getWorkDao().insertWork(work)
+
+//                dataBaseCar.getWorkDao().insertWork(work)
+                    addWork(work)
                 finish()
                 }else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
@@ -87,5 +96,15 @@ class AddWorkActivity : AppCompatActivity() {
         pending.isSelected = state == 0
         progress.isSelected = state == 1
         completed.isSelected = state == 2
+    }
+    private fun addWork(work: Work){
+        dataBaseCar = DataBaseCar.init(this)
+//        val list = ArrayList<Work>()
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().insertWork(work) }
+            val carFromDB =  deferrend.await()
+//            workAdapter.setListWorks(list)
+//            list.addAll(carFromDB)
+        }
     }
 }
