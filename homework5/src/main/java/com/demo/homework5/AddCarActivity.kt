@@ -5,10 +5,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.ArrayList
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class AddCarActivity : AppCompatActivity() {
 

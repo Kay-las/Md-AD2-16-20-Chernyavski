@@ -10,6 +10,9 @@ import com.demo.homework5.Constants
 import com.demo.homework5.DataBaseCar
 import com.demo.homework5.R
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class EditDeleteWork : AppCompatActivity() {
 
@@ -69,8 +72,9 @@ class EditDeleteWork : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.WORK_KEY, work)
-                dataBaseCar.getWorkDao().updateWork(work)
-                finish()
+//                dataBaseCar.getWorkDao().updateWork(work)
+//                finish()
+                editingWork(work)
             }  }
         delete = findViewById<AppCompatImageButton>(R.id.delete).apply {
             setOnClickListener { deleteDialog() }  }
@@ -86,8 +90,9 @@ class EditDeleteWork : AppCompatActivity() {
         alertDialogBuilder.setNegativeButton(R.string.no, null)
                 alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface, i ->
                     val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY) as Work
-                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
-                    finish()
+//                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
+//                    finish()
+                    deleteWork(work)
                 }
                         .show()
 
@@ -119,6 +124,28 @@ class EditDeleteWork : AppCompatActivity() {
         val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY)
        workInfo.text = work?.nameWork
 
+
+    }
+    private fun deleteWork(work: Work) {
+        dataBaseCar = DataBaseCar.init(this)
+        Single.create<Work> {
+            dataBaseCar.getWorkDao().deleteWork(work)
+            it.onSuccess(work)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe { _ ->
+                    finish()
+                }
+
+    }
+    private fun editingWork(work: Work) {
+        dataBaseCar = DataBaseCar.init(this)
+        Single.create<Work> {
+            dataBaseCar.getWorkDao().updateWork(work)
+            it.onSuccess(work)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe { _ ->
+                    finish()
+                }
 
     }
 

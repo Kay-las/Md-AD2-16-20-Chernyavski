@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CarInfoActivity : AppCompatActivity() {
 
@@ -44,9 +47,11 @@ class CarInfoActivity : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.CAR_KEY, car)
-                dataBaseCar.getCarDao().updateCar(car)
 
-                finish()
+                editingCar(car)
+//                dataBaseCar.getCarDao().updateCar(car)
+//
+//                finish()
             }
         }
 
@@ -60,6 +65,18 @@ class CarInfoActivity : AppCompatActivity() {
         producer.editText?.setText(car?.producerCar)
         model.editText?.setText(car?.modelCar)
         numberCar.editText?.setText(car?.numberCar)
+    }
+
+    private fun editingCar(car: Car) {
+        dataBaseCar = DataBaseCar.init(this)
+        Single.create<Car> {
+            dataBaseCar.getCarDao().updateCar(car)
+            it.onSuccess(car)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe { _ ->
+                    finish()
+                }
+
     }
 
 
