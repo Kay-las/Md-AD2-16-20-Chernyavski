@@ -116,12 +116,10 @@ class EditDeleteWork : AppCompatActivity() {
         completed.isSelected = state == 2
     }
 
-
     private fun infoWork() {
         val intent = intent
         val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY)
        workInfo.text = work?.nameWork
-
 
     }
     private fun deleteWork(work: Work) {

@@ -24,9 +24,6 @@ class AddCarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_car)
 
-//        dataBaseCar = DataBaseCar.init(this)
-
-
         ownerName = findViewById(R.id.ownerName)
         producer = findViewById(R.id.producer)
         model = findViewById(R.id.model)

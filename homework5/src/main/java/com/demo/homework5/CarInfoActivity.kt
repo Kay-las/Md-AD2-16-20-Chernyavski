@@ -49,9 +49,7 @@ class CarInfoActivity : AppCompatActivity() {
                 intent.putExtra(Constants.CAR_KEY, car)
 
                 editingCar(car)
-//                dataBaseCar.getCarDao().updateCar(car)
-//
-//                finish()
+
             }
         }
 

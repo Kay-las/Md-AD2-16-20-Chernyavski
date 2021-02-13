@@ -24,6 +24,5 @@ abstract class DataBaseCar : RoomDatabase() {
             return db as DataBaseCar
         }
 
-
     }
 }
