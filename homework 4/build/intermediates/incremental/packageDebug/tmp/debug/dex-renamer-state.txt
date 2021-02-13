@@ -1,0 +1,4 @@
+#Thu Dec 24 20:20:31 EET 2020
+base.0=D\:\\cursy\\Homework 1\\homework 4\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
