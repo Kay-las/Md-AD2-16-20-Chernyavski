@@ -39,7 +39,6 @@ class CarAdapter(private val carClickListener: CarClickListener, listArray: Arra
             }
             itemView.setOnClickListener {
                 carClickListener.onCarClick(position)
-//                Toast.makeText(context, "present: ${producerCar.text}", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -72,8 +72,7 @@ class EditDeleteWork : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.WORK_KEY, work)
-//                dataBaseCar.getWorkDao().updateWork(work)
-//                finish()
+
                 editingWork(work)
             }  }
         delete = findViewById<AppCompatImageButton>(R.id.delete).apply {
@@ -90,8 +89,7 @@ class EditDeleteWork : AppCompatActivity() {
         alertDialogBuilder.setNegativeButton(R.string.no, null)
                 alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface, i ->
                     val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY) as Work
-//                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
-//                    finish()
+
                     deleteWork(work)
                 }
                         .show()

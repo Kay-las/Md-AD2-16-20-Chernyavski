@@ -10,12 +10,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.homework5.work.EditDeleteWork
-import com.demo.homework5.work.Work
 import com.demo.homework5.work.WorkAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AutoRepairActivity : AppCompatActivity() {
 
@@ -46,11 +46,6 @@ class AutoRepairActivity : AppCompatActivity() {
 
         dataBaseCar = DataBaseCar.init(this)
 
-        val list = ArrayList<Work>()
-
-//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-//        list.addAll(workFromDB)
-
 
         addWork = findViewById<FloatingActionButton>(R.id.addWork).apply {
             setOnClickListener {
@@ -75,7 +70,7 @@ class AutoRepairActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-        }, list, this)
+        }, arrayListOf(), this)
         recyclerViewWork.adapter = workAdapter
 
         infoCar()
@@ -88,14 +83,6 @@ class AutoRepairActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onResume() {
-        super.onResume()
-        val list = ArrayList<Work>()
-        val carId = intent.getIntExtra("carId", 0)
-        val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-        list.addAll(carFromDB)
-        workAdapter.setListWorks(list)
-    }
 
     private fun infoCar() {
         val intent = intent
@@ -112,7 +99,7 @@ class AutoRepairActivity : AppCompatActivity() {
         dataBaseCar.getWorkDao().getAllWorkRX(carId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{workFromDB-> workAdapter }
+                .subscribe{workFromDB-> workAdapter.setListWorks(ArrayList(workFromDB)) }
 
     }
 

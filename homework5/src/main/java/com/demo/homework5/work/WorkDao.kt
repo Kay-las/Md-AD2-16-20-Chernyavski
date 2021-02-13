@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.demo.homework5.Car
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface WorkDao {
@@ -14,10 +16,8 @@ interface WorkDao {
     fun getAllWork(carId:Int): List<Work>
 
     @Query("SELECT * FROM Work where carId = :carId ORDER BY cost")
-    fun getAllWorkRX(carId:Int): List<Work>
+    fun getAllWorkRX(carId:Int): Flowable<List<Work>>
 
-//    @Query("SELECT * FROM Work where carId = :carId ORDER BY progressItem")
-//    fun getAllWorkPending(carId:Int): List<Work>
 
     @Insert
     fun insertWork(work: Work)

@@ -26,12 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        dataBaseCar = DataBaseCar.init(this)
-
-        val list = ArrayList<Car>()
-
-//        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-//        list.addAll(carFromDB)
 
         recyclerView = findViewById(R.id.recyclerView)
         toolbar = findViewById(R.id.toolbar)
@@ -50,8 +44,8 @@ class MainActivity : AppCompatActivity() {
             override fun onCarClick(position: Int) {
 
                 val intent = Intent(this@MainActivity, AutoRepairActivity::class.java)
-                intent.putExtra("carId", list[position].id)
-                val car = list[position]
+                intent.putExtra("carId", carAdapter.getItem(position).id)
+                val car =carAdapter.getItem(position)
                 intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
@@ -65,10 +59,10 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-        }, list, this)
+        }, arrayListOf(), this)
         recyclerView.adapter = carAdapter
-        addAllCar()
 
+        addAllCar()
     }
 
     private fun addAllCar() {
@@ -76,21 +70,13 @@ class MainActivity : AppCompatActivity() {
         dataBaseCar.getCarDao().getAllCarRX()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{carFromDB-> carAdapter }
+                .subscribe{carFromDB-> carAdapter.setListCars(ArrayList(carFromDB)) }
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val list = ArrayList<Car>()
-        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-        list.addAll(carFromDB)
-        carAdapter.setListCars(list)
     }
 
 }

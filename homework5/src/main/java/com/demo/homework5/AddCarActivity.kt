@@ -24,7 +24,7 @@ class AddCarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_car)
 
-        dataBaseCar = DataBaseCar.init(this)
+//        dataBaseCar = DataBaseCar.init(this)
 
 
         ownerName = findViewById(R.id.ownerName)
@@ -46,8 +46,6 @@ class AddCarActivity : AppCompatActivity() {
                             modelCar = model.editText?.text.toString(),
                             numberCar = number.editText?.text.toString())
                     addCar(car)
-//                    dataBaseCar.getCarDao().insertCar(car)
-
 
                 } else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
