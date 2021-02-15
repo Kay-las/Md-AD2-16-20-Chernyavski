@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class AutoRepairActivity : AppCompatActivity() {
@@ -51,7 +52,7 @@ class AutoRepairActivity : AppCompatActivity() {
 
         dataBaseCar = DataBaseCar.init(this)
 
-        val list = ArrayList<Work>()
+//        val list = ArrayList<Work>()
 
 //        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
 //        list.addAll(workFromDB)
@@ -80,7 +81,7 @@ class AutoRepairActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-        }, list, this)
+        }, arrayListOf(), this)
         recyclerViewWork.adapter = workAdapter
 
         getAllWork()
@@ -123,6 +124,10 @@ class AutoRepairActivity : AppCompatActivity() {
             list.addAll(workFromDB)
             workAdapter.setListWorks(list)
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
     }
 
 }

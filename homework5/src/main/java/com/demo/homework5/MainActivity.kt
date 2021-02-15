@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
 //        dataBaseCar = DataBaseCar.init(this)
 
-        val list = ArrayList<Car>()
+//        val list = ArrayList<Car>()
 
 //        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
 //        list.addAll(carFromDB)
@@ -55,8 +56,8 @@ class MainActivity : AppCompatActivity() {
             override fun onCarClick(position: Int) {
 
                 val intent = Intent(this@MainActivity, AutoRepairActivity::class.java)
-                intent.putExtra("carId", list[position].id)
-                val car = list[position]
+                intent.putExtra("carId", carAdapter.getItem(position).id)
+                val car = carAdapter.getItem(position)
                 intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-        }, list, this)
+        }, arrayListOf(), this)
         recyclerView.adapter = carAdapter
         getAllCar()
 
@@ -99,6 +100,11 @@ class MainActivity : AppCompatActivity() {
             carAdapter.setListCars(list)
             list.addAll(carFromDB)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
     }
 
 }
