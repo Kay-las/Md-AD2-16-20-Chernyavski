@@ -78,8 +78,8 @@ class EditDeleteWork : AppCompatActivity() {
                 val intent = intent
                 intent.putExtra(Constants.WORK_KEY, work)
                 editingWork(work)
-//                dataBaseCar.getWorkDao().updateWork(work)
-                finish()
+
+
             }  }
         delete = findViewById<AppCompatImageButton>(R.id.delete).apply {
             setOnClickListener { deleteDialog() }  }
@@ -95,9 +95,9 @@ class EditDeleteWork : AppCompatActivity() {
         alertDialogBuilder.setNegativeButton(R.string.no, null)
                 alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface, i ->
                     val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY) as Work
-//                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
+
                     deleteWork(work)
-                    finish()
+
                 }
                         .show()
 
@@ -134,23 +134,23 @@ class EditDeleteWork : AppCompatActivity() {
 
     private fun editingWork(work: Work){
         dataBaseCar = DataBaseCar.init(this)
-//        val list = ArrayList<Work>()
+
         activityScope.launch {
             val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().updateWork(work) }
-            val carFromDB =  deferrend.await()
-//            workAdapter.setListWorks(list)
-//            list.addAll(carFromDB)
+             deferrend.await()
+            finish()
+
         }
     }
 
     private fun deleteWork(work: Work){
         dataBaseCar = DataBaseCar.init(this)
-//        val list = ArrayList<Work>()
+
         activityScope.launch {
             val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().deleteWork(work) }
-            val carFromDB =  deferrend.await()
-//            workAdapter.setListWorks(list)
-//            list.addAll(carFromDB)
+            deferrend.await()
+            finish()
+
         }
     }
     override fun onDestroy() {

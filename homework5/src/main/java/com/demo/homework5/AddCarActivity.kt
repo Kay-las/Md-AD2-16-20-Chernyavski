@@ -30,9 +30,6 @@ class AddCarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_car)
 
-//        dataBaseCar = DataBaseCar.init(this)
-
-
 
         ownerName = findViewById(R.id.ownerName)
         producer = findViewById(R.id.producer)
@@ -54,8 +51,6 @@ class AddCarActivity : AppCompatActivity() {
                             numberCar = number.editText?.text.toString())
 
                     addCar(car)
-//                    dataBaseCar.getCarDao().insertCar(car)
-                    finish()
 
                 } else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
@@ -69,9 +64,9 @@ class AddCarActivity : AppCompatActivity() {
             val list = ArrayList<Car>()
             activityScope.launch {
                 val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().insertCar(car) }
-                val carFromDB =  deferrend.await()
-//                carAdapter.setListCars(list)
-//                list.addAll(carFromDB)
+                deferrend.await()
+                finish()
+
             }
         }
 

@@ -52,11 +52,6 @@ class AutoRepairActivity : AppCompatActivity() {
 
         dataBaseCar = DataBaseCar.init(this)
 
-//        val list = ArrayList<Work>()
-
-//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-//        list.addAll(workFromDB)
-
 
         addWork = findViewById<FloatingActionButton>(R.id.addWork).apply {
             setOnClickListener {
@@ -97,11 +92,7 @@ class AutoRepairActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getAllWork()
-//        val list = ArrayList<Work>()
-//        val carId = intent.getIntExtra("carId", 0)
-//        val carFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-//        list.addAll(carFromDB)
-//        workAdapter.setListWorks(list)
+
     }
 
     private fun infoCar() {

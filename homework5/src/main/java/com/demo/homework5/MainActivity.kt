@@ -32,12 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        dataBaseCar = DataBaseCar.init(this)
-
-//        val list = ArrayList<Car>()
-
-//        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-//        list.addAll(carFromDB)
 
         recyclerView = findViewById(R.id.recyclerView)
         toolbar = findViewById(R.id.toolbar)
@@ -85,10 +79,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getAllCar()
-//        val list = ArrayList<Car>()
-//        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-//        list.addAll(carFromDB)
-//        carAdapter.setListCars(list)
+
     }
 
     private fun getAllCar(){

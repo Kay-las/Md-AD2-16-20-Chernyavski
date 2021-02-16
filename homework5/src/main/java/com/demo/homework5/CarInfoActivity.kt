@@ -33,7 +33,6 @@ class CarInfoActivity : AppCompatActivity() {
         model = findViewById(R.id.model)
         numberCar = findViewById(R.id.numberCar)
 
-//        dataBaseCar = DataBaseCar.init(this)
 
         back = findViewById<AppCompatImageButton>(R.id.back).apply {
             setOnClickListener {
@@ -53,10 +52,9 @@ class CarInfoActivity : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.CAR_KEY, car)
-//                dataBaseCar.getCarDao().updateCar(car)
 
                 editingCar(car)
-                finish()
+
             }
         }
 
@@ -76,9 +74,8 @@ class CarInfoActivity : AppCompatActivity() {
         val list = ArrayList<Car>()
         activityScope.launch {
             val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().updateCar(car) }
-            val carFromDB =  deferrend.await()
-//                carAdapter.setListCars(list)
-//                list.addAll(carFromDB)
+           deferrend.await()
+            finish()
         }
     }
 

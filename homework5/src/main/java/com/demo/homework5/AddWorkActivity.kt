@@ -48,16 +48,12 @@ class AddWorkActivity : AppCompatActivity() {
             setOnClickListener { onStateClicked(2) }
         }
 
-//        dataBaseCar = DataBaseCar.init(this)
 
         val carId = intent.getIntExtra("carId", 0)
 
         pending.isSelected = true
 
-//        val list = ArrayList<Work>()
 
-//        val workFromDB: List<Work> = dataBaseCar.getWorkDao().getAllWork(carId)
-//        list.addAll(workFromDB)
 
         save = findViewById<AppCompatImageButton>(R.id.save).apply {
             setOnClickListener {
@@ -71,7 +67,7 @@ class AddWorkActivity : AppCompatActivity() {
                         carId = carId,
                         progressItem = state)
 
-//                dataBaseCar.getWorkDao().insertWork(work)
+
                     addWork(work)
                 finish()
                 }else {
@@ -82,7 +78,7 @@ class AddWorkActivity : AppCompatActivity() {
 
         back = findViewById<AppCompatImageButton>(R.id.back).apply {
             setOnClickListener {
-                finish()
+
             }
         }
         refreshState()
@@ -100,12 +96,12 @@ class AddWorkActivity : AppCompatActivity() {
     }
     private fun addWork(work: Work){
         dataBaseCar = DataBaseCar.init(this)
-//        val list = ArrayList<Work>()
+
         activityScope.launch {
             val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().insertWork(work) }
-            val carFromDB =  deferrend.await()
-//            workAdapter.setListWorks(list)
-//            list.addAll(carFromDB)
+             deferrend.await()
+            finish()
+
         }
     }
 
