@@ -1,13 +1,21 @@
 package com.demo.homework5
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class AddCarActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var ownerName: TextInputLayout
     private lateinit var producer: TextInputLayout
@@ -21,8 +29,6 @@ class AddCarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_car)
-
-        dataBaseCar = DataBaseCar.init(this)
 
 
         ownerName = findViewById(R.id.ownerName)
@@ -44,17 +50,29 @@ class AddCarActivity : AppCompatActivity() {
                             modelCar = model.editText?.text.toString(),
                             numberCar = number.editText?.text.toString())
 
-                    dataBaseCar.getCarDao().insertCar(car)
-                    val intent = Intent(this@AddCarActivity, MainActivity::class.java)
-                    startActivity(intent)
+                    addCar(car)
+
                 } else {
                     Toast.makeText(context, R.string.note, Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+        private fun addCar(car: Car){
+            dataBaseCar = DataBaseCar.init(this)
+            val list = ArrayList<Car>()
+            activityScope.launch {
+                val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().insertCar(car) }
+                deferrend.await()
+                finish()
 
             }
-
-
         }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
     }
+
 }

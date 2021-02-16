@@ -10,8 +10,16 @@ import com.demo.homework5.Constants
 import com.demo.homework5.DataBaseCar
 import com.demo.homework5.R
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class EditDeleteWork : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var nameWork: TextInputLayout
     private lateinit var cost: TextInputLayout
@@ -69,8 +77,9 @@ class EditDeleteWork : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.WORK_KEY, work)
-                dataBaseCar.getWorkDao().updateWork(work)
-                finish()
+                editingWork(work)
+
+
             }  }
         delete = findViewById<AppCompatImageButton>(R.id.delete).apply {
             setOnClickListener { deleteDialog() }  }
@@ -86,8 +95,9 @@ class EditDeleteWork : AppCompatActivity() {
         alertDialogBuilder.setNegativeButton(R.string.no, null)
                 alertDialogBuilder.setPositiveButton(R.string.yes) { dialogInterface, i ->
                     val work = intent.getParcelableExtra<Work>(Constants.WORK_KEY) as Work
-                    DataBaseCar.init(this).getWorkDao().deleteWork(work)
-                    finish()
+
+                    deleteWork(work)
+
                 }
                         .show()
 
@@ -122,4 +132,29 @@ class EditDeleteWork : AppCompatActivity() {
 
     }
 
+    private fun editingWork(work: Work){
+        dataBaseCar = DataBaseCar.init(this)
+
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().updateWork(work) }
+             deferrend.await()
+            finish()
+
+        }
+    }
+
+    private fun deleteWork(work: Work){
+        dataBaseCar = DataBaseCar.init(this)
+
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getWorkDao().deleteWork(work) }
+            deferrend.await()
+            finish()
+
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
+    }
 }

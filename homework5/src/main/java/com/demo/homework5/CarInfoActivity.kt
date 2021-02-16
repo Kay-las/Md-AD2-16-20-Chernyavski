@@ -4,8 +4,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import com.google.android.material.textfield.TextInputLayout
+import java.util.ArrayList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class CarInfoActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var ownerName: TextInputLayout
     private lateinit var producer: TextInputLayout
@@ -24,7 +33,6 @@ class CarInfoActivity : AppCompatActivity() {
         model = findViewById(R.id.model)
         numberCar = findViewById(R.id.numberCar)
 
-        dataBaseCar = DataBaseCar.init(this)
 
         back = findViewById<AppCompatImageButton>(R.id.back).apply {
             setOnClickListener {
@@ -44,9 +52,9 @@ class CarInfoActivity : AppCompatActivity() {
 
                 val intent = intent
                 intent.putExtra(Constants.CAR_KEY, car)
-                dataBaseCar.getCarDao().updateCar(car)
 
-                finish()
+                editingCar(car)
+
             }
         }
 
@@ -60,5 +68,19 @@ class CarInfoActivity : AppCompatActivity() {
         producer.editText?.setText(car?.producerCar)
         model.editText?.setText(car?.modelCar)
         numberCar.editText?.setText(car?.numberCar)
+    }
+    private fun editingCar(car: Car){
+        dataBaseCar = DataBaseCar.init(this)
+        val list = ArrayList<Car>()
+        activityScope.launch {
+            val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().updateCar(car) }
+           deferrend.await()
+            finish()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
     }
 }

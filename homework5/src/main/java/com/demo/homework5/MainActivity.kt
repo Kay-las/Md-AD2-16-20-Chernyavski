@@ -9,10 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-//    С сохранением даты и времени, меня чего то переклинило- не сделал. ^_^
+
+    private val activityScope = CoroutineScope(Dispatchers.Main + Job())
 
     private lateinit var carAdapter: CarAdapter
     private lateinit var buttonAdd: FloatingActionButton
@@ -25,13 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        dataBaseCar = DataBaseCar.init(this)
-        getData()
-
-        val list = ArrayList<Car>()
-
-        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-        list.addAll(carFromDB)
 
         recyclerView = findViewById(R.id.recyclerView)
         toolbar = findViewById(R.id.toolbar)
@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
             override fun onCarClick(position: Int) {
 
                 val intent = Intent(this@MainActivity, AutoRepairActivity::class.java)
-                intent.putExtra("carId", list[position].id)
-                val car = list[position]
+                intent.putExtra("carId", carAdapter.getItem(position).id)
+                val car = carAdapter.getItem(position)
                 intent.putExtra(Constants.CAR_KEY, car)
                 startActivity(intent)
 
@@ -65,8 +65,9 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-        }, list, this)
+        }, arrayListOf(), this)
         recyclerView.adapter = carAdapter
+        getAllCar()
 
     }
 
@@ -77,15 +78,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val list = ArrayList<Car>()
-        val carFromDB: List<Car> = dataBaseCar.getCarDao().getAllCar()
-        list.addAll(carFromDB)
-        carAdapter.setListCars(list)
+        getAllCar()
+
     }
 
-    private fun getData() {
-        val dao = dataBaseCar.getCarDao()
+    private fun getAllCar(){
+        dataBaseCar = DataBaseCar.init(this)
+        val list = ArrayList<Car>()
+        activityScope.launch {
+           val deferrend = async (Dispatchers.IO){ dataBaseCar.getCarDao().getAllCar() }
+            val carFromDB =  deferrend.await()
+            carAdapter.setListCars(list)
+            list.addAll(carFromDB)
+        }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activityScope.cancel()
     }
 
 }
